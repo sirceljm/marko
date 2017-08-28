@@ -1,4 +1,5 @@
 var isDebug = false;
+var global = require('global');
 
 var env = process.env || {};
 
@@ -11,4 +12,4 @@ if (env.MARKO_DEBUG != null) {
         NODE_ENV === 'dev';
 }
 
-exports.isDebug = isDebug;
+global.MARKO_DEBUG = exports.isDebug = isDebug;

@@ -1,6 +1,7 @@
 {
     "predef": [
-        "document"
+        "document",
+        "MARKO_DEBUG"
     ],
     "node" : true,
     "esnext": true,

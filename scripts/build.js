@@ -12,6 +12,18 @@ const babelOptions = {
                 "hello": "world",
                 "context": "marko"
             }
+        ],
+        [
+            "transform-define", {
+                "MARKO_DEBUG": false
+            }
+        ],
+        [
+            "minify-dead-code-elimination", {
+                "keepFnName": true,
+                "keepFnArgs": true,
+                "keepClassName": true
+            }
         ]
     ]
 };
@@ -34,6 +46,7 @@ fs.writeFileSync(
 
 buildDir('test', 'test-dist', {
     babelExclude: [
+        '**/inline/**',
         '*expected*.*',
         'input.js*'
     ],
