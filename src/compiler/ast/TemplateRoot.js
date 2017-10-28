@@ -38,6 +38,7 @@ class TemplateRoot extends Node {
 
     generateCode(codegen) {
         var context = codegen.context;
+        var isBrowser = context.options.browser;
 
         this.body = codegen.generateCode(this.body);
 
@@ -55,6 +56,13 @@ class TemplateRoot extends Node {
         var vars = createVarsArray(context.getVars());
         if (vars.length) {
             renderStatements.push(builder.vars(vars));
+        }
+
+        if(!isBrowser){
+            let serverNodes = context.getServerNodes();
+            if (serverNodes.length) {
+                renderStatements = renderStatements.concat(serverNodes);
+            }
         }
 
         renderStatements = renderStatements.concat(this.body);
@@ -81,9 +89,9 @@ class TemplateRoot extends Node {
                 )
             ]);
         } else {
-            var createArgs = context.useMeta
-                ? [builder.identifier("__filename")]
-                : [];
+            var createArgs = isBrowser ?
+                [] :
+                [ builder.identifier('__filename') ];
 
             let templateDeclaration = builder.variableDeclarator(
                 "marko_template",
@@ -114,6 +122,13 @@ class TemplateRoot extends Node {
             let staticNodes = context.getStaticNodes([templateDeclaration]);
             if (staticNodes.length) {
                 body = body.concat(staticNodes);
+            }
+
+            if(!isBrowser){
+                let serverStaticNodes = context.getServerStaticNodes([templateDeclaration]);
+                if (serverStaticNodes.length) {
+                    body = body.concat(serverStaticNodes);
+                }
             }
 
             let renderFunction = builder.functionDeclaration(

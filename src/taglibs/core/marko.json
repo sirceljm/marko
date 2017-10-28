@@ -198,6 +198,20 @@
             "ignoreAttributes": true
         }
     },
+    "<server>": {
+        "code-generator": "./server-tag",
+        "no-output": true,
+        "parse-options": {
+            "ignoreAttributes": true
+        }
+    },
+    "<server-static>": {
+        "code-generator": "./server-static-tag",
+        "no-output": true,
+        "parse-options": {
+            "ignoreAttributes": true
+        }
+    }, 
     "<unless>": {
         "node-factory": "./unless-tag",
         "autocomplete": [

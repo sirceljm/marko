@@ -90,6 +90,14 @@ class CodeGenerator {
         this.context.addStaticCode(code);
     }
 
+    addServerCode(code) {
+        this.context.addServerCode(code);
+    }
+
+    addServerStaticCode(code) {
+        this.context.addServerStaticCode(code);
+    }
+
     addDependency(path, type, options) {
         this.context.addDependency(path, type, options);
     }
