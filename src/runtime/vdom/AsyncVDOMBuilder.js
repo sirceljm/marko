@@ -300,11 +300,9 @@ var proto = (AsyncVDOMBuilder.prototype = {
     },
 
     beginAsync: function(options) {
-        if (this.___sync) {
-            throw Error(
-                "Tried to render async while in sync mode. Note: Client side await is not currently supported in re-renders (Issue: #942)."
-            );
-        }
+        // if (this.___sync) {
+        //     throw Error('Not allowed');
+        // }
 
         var state = this.___state;
 

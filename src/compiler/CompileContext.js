@@ -157,6 +157,12 @@ class CompileContext extends EventEmitter {
         this._staticVars = {};
         this._staticCode = null;
         this._uniqueStaticVars = new UniqueVars();
+        this._serverVars = {};
+        this._serverCode = null;
+        this._uniqueServerVars = new UniqueVars();
+        this._serverStaticVars = {};
+        this._serverStaticCode = null;
+        this._uniqueServerStaticVars = new UniqueVars();
         this._srcCharProps = null;
         this._flags = {};
         this._errors = [];
@@ -165,7 +171,7 @@ class CompileContext extends EventEmitter {
         this._preserveComments = null;
         this.inline = this.options.inline === true;
         this.useMeta = this.options.meta !== false;
-        this.markoModulePrefix = isDebug ? "marko/src/" : "marko/dist/";
+        this.markoModulePrefix = isDebug ? '@awly/marko/src/' : '@awly/marko/dist/';
 
         this._moduleRuntimeTarget =
             this.markoModulePrefix +
@@ -421,6 +427,70 @@ class CompileContext extends EventEmitter {
 
     getStaticCode() {
         return this._staticCode;
+    }
+
+    addServerVar(name, init) {
+        var actualVarName = this._uniqueServerVars.addVar(name, init);
+        this._serverVars[actualVarName] = init;
+        return this.builder.identifier(actualVarName);
+    }
+
+    getServerVars() {
+        return this._serverVars;
+    }
+
+    addServerCode(code) {
+        if (!code) {
+            return;
+        }
+
+        if (typeof code === 'string') {
+            // Wrap the String code in a Code AST node so that
+            // the code will be indented properly
+            code = this.builder.code(code);
+        }
+
+        if (this._serverCode == null) {
+            this._serverCode = [code];
+        } else {
+            this._serverCode.push(code);
+        }
+    }
+
+    getServerCode() {
+        return this._serverCode;
+    }
+
+    addServerStaticVar(name, init) {
+        var actualVarName = this._uniqueServerStaticVars.addVar(name, init);
+        this._serverStaticVars[actualVarName] = init;
+        return this.builder.identifier(actualVarName);
+    }
+
+    getServerStaticVars() {
+        return this._serverStaticVars;
+    }
+
+    addServerStaticCode(code) {
+        if (!code) {
+            return;
+        }
+
+        if (typeof code === 'string') {
+            // Wrap the String code in a Code AST node so that
+            // the code will be indented properly
+            code = this.builder.code(code);
+        }
+
+        if (this._serverStaticCode == null) {
+            this._serverStaticCode = [code];
+        } else {
+            this._serverStaticCode.push(code);
+        }
+    }
+
+    getServerStaticCode() {
+        return this._serverStaticCode;
     }
 
     getTagDef(tagName) {
@@ -844,6 +914,60 @@ class CompileContext extends EventEmitter {
         }
 
         return staticNodes;
+    }
+
+    getServerNodes(additionalVars) {
+        let builder = this.builder;
+        let serverNodes = [];
+        let serverVars = this.getServerVars();
+
+        let serverVarNodes = Object.keys(serverVars).map((varName) => {
+            var varInit = serverVars[varName];
+            return builder.variableDeclarator(varName, varInit);
+        });
+
+        if(additionalVars) {
+            serverVarNodes = additionalVars.concat(serverVarNodes);
+        }
+
+        if (serverVarNodes.length) {
+            serverNodes.push(this.builder.vars(serverVarNodes));
+        }
+
+        var serverCodeArray = this.getServerCode();
+
+        if (serverCodeArray) {
+            serverNodes = serverNodes.concat(serverCodeArray);
+        }
+
+        return serverNodes;
+    }
+
+    getServerStaticNodes(additionalVars) {
+        let builder = this.builder;
+        let serverStaticNodes = [];
+        let serverStaticVars = this.getServerStaticVars();
+
+        let serverStaticVarNodes = Object.keys(serverStaticVars).map((varName) => {
+            var varInit = serverStaticVars[varName];
+            return builder.variableDeclarator(varName, varInit);
+        });
+
+        if(additionalVars) {
+            serverStaticVarNodes = additionalVars.concat(serverStaticVarNodes);
+        }
+
+        if (serverStaticVarNodes.length) {
+            serverStaticNodes.push(this.builder.vars(serverStaticVarNodes));
+        }
+
+        var serverStaticCodeArray = this.getServerStaticCode();
+
+        if (serverStaticCodeArray) {
+            serverStaticNodes = serverStaticNodes.concat(serverStaticCodeArray);
+        }
+
+        return serverStaticNodes;
     }
 
     get helpersIdentifier() {
