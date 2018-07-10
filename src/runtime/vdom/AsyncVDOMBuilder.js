@@ -226,9 +226,9 @@ var proto = AsyncVDOMBuilder.prototype = {
     },
 
     beginAsync: function(options) {
-        if (this.___sync) {
-            throw Error('Not allowed');
-        }
+        // if (this.___sync) {
+        //     throw Error('Not allowed');
+        // }
 
         var state = this.___state;
 
