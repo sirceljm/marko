@@ -1,5 +1,5 @@
 {
-  "name": "marko",
+  "name": "awly-marko",
   "description": "UI Components + streaming, async, high performance, HTML templating for Node.js and the browser.",
   "keywords": [
     "front-end",
@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/marko-js/marko.git"
+    "url": "https://github.com/sirceljm/marko.git"
   },
   "scripts": {
     "build": "node scripts/build.js",
@@ -47,13 +47,14 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
-  "author": "Patrick Steele-Idem <pnidem@gmail.com>",
-  "maintainers": [
+  "author": "Matej Šircelj <sircelj.m@gmail.com> (https://github.com/sirceljm/)",
+  "contributors": [
     "Patrick Steele-Idem <pnidem@gmail.com>",
     "Michael Rawlings <ml.rawlings@gmail.com>",
     "Phillip Gates-Idem <phillip.idem@gmail.com>",
     "Martin Aberer"
   ],
+  "maintainers": "Matej Šircelj <sircelj.m@gmail.com> (https://github.com/sirceljm/)",
   "dependencies": {
     "app-module-path": "^2.2.0",
     "argly": "^1.0.0",
