@@ -164,7 +164,7 @@ class CompileContext extends EventEmitter {
         this._preserveComments = null;
         this.inline = this.options.inline === true;
         this.useMeta = this.options.meta !== false;
-        this.markoModulePrefix = isDebug ? 'marko/src/' : 'marko/dist/';
+        this.markoModulePrefix = isDebug ? '@awly/marko/src/' : '@awly/marko/dist/';
 
         this._moduleRuntimeTarget = this.markoModulePrefix + (this.outputType === 'vdom' ? 'vdom' : 'html');
         this.unrecognizedTags = [];
