@@ -1,5 +1,7 @@
 {
   "name": "@awly/marko",
+  "version": "4.13.9-alpha.0",
+  "homepage": "https://github.com/sirceljm/marko",
   "description": "UI Components + streaming, async, high performance, HTML templating for Node.js and the browser.",
   "keywords": [
     "front-end",
@@ -153,8 +155,6 @@
       "**/dist/**"
     ]
   },
-  "homepage": "http://markojs.com/",
-  "version": "4.13.7",
   "logo": {
     "url": "https://raw.githubusercontent.com/marko-js/branding/master/marko-logo-small.png"
   }
